@@ -1,0 +1,44 @@
+{
+  "error": null,
+  "issues": [
+    {
+      "title": "External Call To User-Supplied Address",
+      "type": "Warning",
+      "severity": "Medium",
+      "swc-id": "107",
+      "contract": "Vault",
+      "function": "withdraw(uint256)",
+      "filename": "contracts/Vault.sol",
+      "lineno": 26,
+      "code": "(bool ok, ) = msg.sender.call{value: amount}(\"\");",
+      "description": "A call to a user-supplied address is executed. The callee can re-enter the caller before state is updated, enabling a classic reentrancy attack.",
+      "longDescription": "A call to a user-supplied address is executed. The callee can re-enter the caller before state is updated, enabling a classic reentrancy attack."
+    },
+    {
+      "title": "State change after external call",
+      "type": "Warning",
+      "severity": "High",
+      "swc-id": "107",
+      "contract": "Vault",
+      "function": "withdraw(uint256)",
+      "filename": "contracts/Vault.sol",
+      "lineno": 28,
+      "code": "balances[msg.sender] -= amount;",
+      "description": "The contract changes state after sending Ether to an external address; this is reachable from withdraw().",
+      "longDescription": ""
+    },
+    {
+      "title": "Dependence on tx.origin",
+      "type": "Warning",
+      "severity": "Low",
+      "swc-id": "115",
+      "contract": "Vault",
+      "function": "setOwner(address)",
+      "filename": "contracts/Vault.sol",
+      "lineno": 33,
+      "code": "require(tx.origin == owner);",
+      "description": "Use of tx.origin as an authorization check enables phishing attacks."
+    }
+  ],
+  "success": true
+}
